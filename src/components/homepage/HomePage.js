@@ -1,11 +1,28 @@
 import styled from "styled-components";
 import Header from "./Header.js";
 import Product from "./Product.js";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { renderProducts } from "../services/ports.js";
+import UserContext from "../../contexts/userContext.js";
 
 export default function HomePage() {
+  const { user, setUser } = useContext(UserContext);
+  checkLogin();
   const [products, setProducts] = useState([]);
+
+  function getLocal() {
+    const user = JSON.parse(localStorage.getItem("session"));
+    return user;
+  }
+
+  function checkLogin() {
+    if (user._id === "" && getLocal()) {
+      setUser(getLocal());
+    } else if (!user) {
+      alert("Sua sessão expirou! Por favor, faça o login novamente");
+      navigate("/sign-in");
+    }
+  }
 
   useEffect(() => {
     getProducts();
