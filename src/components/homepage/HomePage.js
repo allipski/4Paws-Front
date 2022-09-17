@@ -4,11 +4,13 @@ import Product from "./Product.js";
 import { useState, useEffect, useContext } from "react";
 import { renderProducts } from "../services/ports.js";
 import UserContext from "../../contexts/userContext.js";
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
   const { user, setUser } = useContext(UserContext);
   checkLogin();
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   function getLocal() {
     const user = JSON.parse(localStorage.getItem("session"));
